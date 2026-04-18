@@ -1,155 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
-		<meta name="generator" content="Hostinger Horizons" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>YouTube Thumbnail Downloader | Fast & Free</title>
-		<meta name="description" content="Download high-quality YouTube thumbnails for free with our easy-to-use tool. Get thumbnails in HD resolution instantly. Free YouTube Thumbnail Downloader. Download any YouTube video thumbnail in HD for free at ProSEO Tools. Fast, secure, and easy." />
-		<meta name="keywords" content="youtube thumbnail downloader, youtube thumbnail download hd, free youtube thumbnail downloader, youtube thumbnail grabber, youtube thumbnail viewer, get youtube thumbnail, online youtube thumbnail downloader, download youtube thumbnail 1080p, download youtube video thumbnail, best youtube thumbnail downloader, youtube thumbnail extractor, youtube thumbnail online free, download thumbnail from youtube, save youtube thumbnail, youtube hd thumbnail download, get hd youtube thumbnail, free hd youtube thumbnail downloader, instant youtube thumbnail download, youtube thumbnail generator, high quality youtube thumbnail download">
-		<meta property="og:image" content="https://i.pinimg.com/1200x/eb/6b/f1/eb6bf142dea30cf88ba4f5ddd2a90e55.jpg" />
-<meta property="og:url" content="https://proseotools.xyz/" />
-<meta property="og:type" content="website" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Thumbnail Downloader</title>
 
-<meta name="google-adsense-account" content="ca-pub-2757099622481498">
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Pro SEO Tools" />
-<meta name="twitter:description" content="Best free SEO tools for your website, boost ranking and performance." />
-<meta name="twitter:image" content="https://i.pinimg.com/1200x/eb/6b/f1/eb6bf142dea30cf88ba4f5ddd2a90e55.jpg" />
-		<script type="module" crossorigin src="/assets/index-b57a8d84.js"></script>
-		<link rel="stylesheet" href="/assets/index-a419b150.css">
-		<script type="module">
-window.onerror = (message, source, lineno, colno, errorObj) => {
-	const errorDetails = errorObj ? JSON.stringify({
-		name: errorObj.name,
-		message: errorObj.message,
-		stack: errorObj.stack,
-		source,
-		lineno,
-		colno,
-	}) : null;
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+}
 
-	window.parent.postMessage({
-		type: 'horizons-runtime-error',
-		message,
-		error: errorDetails
-	}, '*');
-};
-</script>
-		<script type="module">
-const observer = new MutationObserver((mutations) => {
-	for (const mutation of mutations) {
-		for (const addedNode of mutation.addedNodes) {
-			if (
-				addedNode.nodeType === Node.ELEMENT_NODE &&
-				(
-					addedNode.tagName?.toLowerCase() === 'vite-error-overlay' ||
-					addedNode.classList?.contains('backdrop')
-				)
-			) {
-				handleViteOverlay(addedNode);
-			}
-		}
-	}
-});
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-observer.observe(document.documentElement, {
-	childList: true,
-	subtree: true
-});
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  width: 400px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
 
-function handleViteOverlay(node) {
-	if (!node.shadowRoot) {
-		return;
-	}
+h1 {
+  margin-bottom: 10px;
+}
 
-	const backdrop = node.shadowRoot.querySelector('.backdrop');
+p {
+  font-size: 14px;
+  color: #94a3b8;
+}
 
-	if (backdrop) {
-		const overlayHtml = backdrop.outerHTML;
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(overlayHtml, 'text/html');
-		const messageBodyElement = doc.querySelector('.message-body');
-		const fileElement = doc.querySelector('.file');
-		const messageText = messageBodyElement ? messageBodyElement.textContent.trim() : '';
-		const fileText = fileElement ? fileElement.textContent.trim() : '';
-		const error = messageText + (fileText ? ' File:' + fileText : '');
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
 
-		window.parent.postMessage({
-			type: 'horizons-vite-error',
-			error,
-		}, '*');
-	}
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+#result img {
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+#result a {
+  display: block;
+  margin-top: 10px;
+  color: #38bdf8;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="main">
+  <div class="card">
+    <h1>YouTube Thumbnail Downloader</h1>
+    <p>Paste your video link and get HD thumbnail instantly</p>
+
+    <input type="text" id="url" placeholder="Paste YouTube URL...">
+
+    <button onclick="getThumbnail()">Get Thumbnail</button>
+
+    <div id="result"></div>
+  </div>
+</div>
+
+<script>
+function getThumbnail() {
+  let url = document.getElementById("url").value;
+
+  let videoId;
+
+  if (url.includes("youtu.be/")) {
+    videoId = url.split("youtu.be/")[1];
+  } else if (url.includes("v=")) {
+    videoId = url.split("v=")[1].split("&")[0];
+  } else {
+    alert("Invalid YouTube URL");
+    return;
+  }
+
+  let thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+  document.getElementById("result").innerHTML = `
+    <img src="${thumbnail}">
+    <a href="${thumbnail}" download>⬇ Download Thumbnail</a>
+  `;
 }
 </script>
-		<script type="module">
-const originalConsoleError = console.error;
-console.error = function(...args) {
-	originalConsoleError.apply(console, args);
 
-	let errorString = '';
-
-	for (let i = 0; i < args.length; i++) {
-		const arg = args[i];
-		if (arg instanceof Error) {
-			errorString = arg.stack || `${arg.name}: ${arg.message}`;
-			break;
-		}
-	}
-
-	if (!errorString) {
-		errorString = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
-	}
-
-	window.parent.postMessage({
-		type: 'horizons-console-error',
-		error: errorString
-	}, '*');
-};
-</script>
-		<script type="module">
-const originalFetch = window.fetch;
-
-window.fetch = function(...args) {
-	const url = args[0] instanceof Request ? args[0].url : args[0];
-
-	// Skip WebSocket URLs
-	if (url.startsWith('ws:') || url.startsWith('wss:')) {
-		return originalFetch.apply(this, args);
-	}
-
-	return originalFetch.apply(this, args)
-		.then(async response => {
-			const contentType = response.headers.get('Content-Type') || '';
-
-			// Exclude HTML document responses
-			const isDocumentResponse =
-				contentType.includes('text/html') ||
-				contentType.includes('application/xhtml+xml');
-
-			if (!response.ok && !isDocumentResponse) {
-					const responseClone = response.clone();
-					const errorFromRes = await responseClone.text();
-					const requestUrl = response.url;
-					console.error(`Fetch error from ${requestUrl}: ${errorFromRes}`);
-			}
-
-			return response;
-		})
-		.catch(error => {
-			if (!url.match(/.html?$/i)) {
-				console.error(error);
-			}
-
-			throw error;
-		});
-};
-</script>
-	</head>
-	<body>
-		<div id="root"></div>
-		
-	</body>
+</body>
 </html>
